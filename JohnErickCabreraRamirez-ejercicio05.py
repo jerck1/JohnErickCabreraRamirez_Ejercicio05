@@ -74,33 +74,34 @@ plt.xlabel("H")
 plt.ylabel('P(H|obs)')
 
 
-# In[59]:
+# In[74]:
 
 
 def x_max(y,H):
     for i in range(len(y)-2):
         if np.diff(y)[i]*np.diff(y)[i+1]<0 :
-            return ((H[i]+H[i+1])/2)
+            return (H[i]+H[i+1])/2, i
 
 
-# In[62]:
+# In[77]:
 
 
-x_bar=x_max(y, H)
+x_bar=x_max(y, H)[0]
+pos=x_max(y, H)[1]
 print(x_bar)
 
 
-# In[40]:
+# In[78]:
 
 
-def sigma(y,x_bar):
-    return -np.diff(np.diff(y))
+def sigma(y,x_bar,pos):
+    return -np.diff(np.diff(y))[pos]
 
 
-# In[63]:
+# In[79]:
 
 
-print(sigma(y,x_bar))
+print(sigma(y,x_bar),pos)
 
 
 # In[71]:
