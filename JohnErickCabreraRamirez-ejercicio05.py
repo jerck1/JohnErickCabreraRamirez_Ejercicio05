@@ -19,10 +19,10 @@ toss=np.array(["s","c","c","c","c"])
 
 
 def P(H):
-    return 1
+    return 1/2.
 
 
-# In[19]:
+# In[4]:
 
 
 def P_obs_H(nc,ns,H):
@@ -30,17 +30,17 @@ def P_obs_H(nc,ns,H):
     return P
 
 
-# In[33]:
+# In[5]:
 
 
 def P_obs(nc,ns,H):
     p=0
     for i in range(len(H)):
-        p+=P_obs_H(nc,ns,H[i])
+        p+=P_obs_H(nc,ns,H[i])*P(H[i])
     return p
 
 
-# In[34]:
+# In[6]:
 
 
 def P_H_obs(nc,ns,H,toss):
@@ -48,76 +48,87 @@ def P_H_obs(nc,ns,H,toss):
     return p
 
 
-# In[47]:
+# In[7]:
 
 
 def x_max(y,H):
-    for i in range(len(y)-2):
+    for i in range(len(y)):
+        if y[i]==0:
+            y[i]=10**(-20)
         if np.diff(np.log(y))[i]*np.diff(np.log(y))[i+1]<0 :
             return (H[i]+H[i+1])/2, i
 
 
-# In[56]:
+# In[8]:
 
 
 def sigma(y,x_bar,pos):
-    return -np.diff(np.log(y))[pos]
+    for i in range(len(y)):
+        if y[i]==0:
+            y[i]=10**-20
+    return -np.diff(np.diff(np.log(y)))[pos]
 
 
-# In[57]:
+# In[9]:
 
 
-H=np.arange(0,1.1,0.01)
+H=np.arange(0,1.1,0.05)
 
 
-# In[58]:
+# In[10]:
 
 
 y=P_H_obs(np.count_nonzero(toss == "s"),np.count_nonzero(toss == "c"),H,toss)
+print(y)
 
 
-# In[59]:
+# In[11]:
 
 
 plt.figure(figsize=(8,8))
 plt.plot(H,y)
+plt.scatter(H,y)
 plt.xlabel("H")
 plt.ylabel('P(H|obs)')
 
 
-# In[60]:
+# In[12]:
 
 
 x_bar=x_max(y, H)[0]
 pos=x_max(y, H)[1]
-print(x_bar)
+#print(x_bar)
+#x_max(y, H)
 
 
-# In[61]:
+# In[13]:
 
 
 sig=sigma(y,x_bar,pos)
-print(sigma(y,x_bar,pos))
+print(sig)
 valor=[x_bar,"+/-",sig]
 
 
-# In[62]:
+# In[14]:
 
 
 def gaussian(x, mu, sig):
-    return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
+    return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))/(sig*np.power(2.*np.pi,0.5))
 
 
-# In[63]:
+# In[15]:
 
 
 plt.figure(figsize=(8,8))
 plt.plot(H,y)
 plt.plot(H,gaussian(H,x_bar,sig))
+#plt.plot(H,gaussian(H,x_bar,1))
 plt.xlabel("H")
 plt.ylabel('P(H|obs)')
 plt.suptitle(valor, fontsize=20)
 
+
+# - La curva gaussiana (naranja) es más alta debido al valor de sigma, esto quiere decir que el valor de sigma está al estimado, posiblemente a la forma en la que se ha definido P(H)
 
 # In[ ]:
 
