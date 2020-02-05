@@ -98,20 +98,22 @@ def sigma(y,x_bar,pos):
     return -np.diff(np.diff(y))[pos]
 
 
-# In[79]:
+# In[97]:
 
 
-print(sigma(y,x_bar),pos)
+sig=sigma(y,x_bar,pos)
+print(sigma(y,x_bar,pos))
+valor=[x_bar,"+/-",sig]
 
 
-# In[71]:
+# In[98]:
 
 
 plt.figure(figsize=(8,8))
 plt.plot(H,y)
 plt.xlabel("H")
 plt.ylabel('P(H|obs)')
-plt.suptitle(x_bar, fontsize=20)
+plt.suptitle(valor, fontsize=20)
 
 
 # In[ ]:
