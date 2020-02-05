@@ -97,8 +97,24 @@ def sigma(y,x_bar):
     return -np.diff(np.diff(y))
 
 
+# In[63]:
+
+
+print(sigma(y,x_bar))
+
+
+# In[71]:
+
+
+plt.figure(figsize=(8,8))
+plt.plot(H,y)
+plt.xlabel("H")
+plt.ylabel('P(H|obs)')
+plt.suptitle(x_bar, fontsize=20)
+
+
 # In[ ]:
 
 
-sigma(y,x_bar)
+
 
