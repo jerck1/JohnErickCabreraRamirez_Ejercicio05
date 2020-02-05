@@ -30,11 +30,11 @@ def P(H):
   #  return p
 
 
-# In[34]:
+# In[109]:
 
 
 H=np.arange(0,1.1,0.1)
-H
+print(H)
 
 
 # In[35]:
