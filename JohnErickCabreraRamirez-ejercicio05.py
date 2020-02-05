@@ -106,14 +106,28 @@ print(sigma(y,x_bar,pos))
 valor=[x_bar,"+/-",sig]
 
 
-# In[98]:
+# In[101]:
+
+
+def gaussian(x, mu, sig):
+    return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
+
+
+# In[107]:
 
 
 plt.figure(figsize=(8,8))
 plt.plot(H,y)
+plt.plot(H,gaussian(H,x_bar,sig))
 plt.xlabel("H")
 plt.ylabel('P(H|obs)')
 plt.suptitle(valor, fontsize=20)
+
+
+# In[108]:
+
+
+plt.plot(H,gaussian(H,x_bar,sig))
 
 
 # In[ ]:
